@@ -81,28 +81,13 @@ export function AllRecipesRender(props: Props) {
       <AppBar position="relative" />
       <main>
         <Container className={classes.cardGrid} maxWidth="md">
-          {!isLoading &&
-            (recipes.length ? (
-              <Box className={classes.results}>
-                <Typography
-                  variant="h3"
-                  color="inherit"
-                  className={classes.text}
-                >
-                  RECIPES
-                </Typography>
-              </Box>
-            ) : (
-              <Box className={classes.results}>
-                <Typography
-                  variant="h3"
-                  color="inherit"
-                  className={classes.text}
-                >
-                  NO RECIPES MATCH YOUR SEARCH
-                </Typography>
-              </Box>
-            ))}
+          <Box className={classes.results}>
+            <Typography variant="h3" color="inherit" className={classes.text}>
+              {!isLoading && recipes.length
+                ? "RECIPES"
+                : "NO RECIPES MATCH YOUR SEARCH"}
+            </Typography>
+          </Box>
 
           <Grid container spacing={4}>
             {recipes.map((card) => {
