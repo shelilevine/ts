@@ -1,13 +1,23 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import AllRecipesRender from "./allRecipesRender";
-import PropTypes from "prop-types";
+import { UpdateRecipe, SetSearch, Recipe, User } from "../interfaces";
 
-const serverUrl = "/api/recipes";
+const serverUrl: string = "/api/recipes";
 
-export function AllRecipesView(props) {
-  const [isLoading, setLoadStatus] = useState(true);
+interface Props extends RouteComponentProps<any> {
+  search: Recipe[];
+  setSingleRecipe: (recipe: Recipe | {}) => void;
+  setSearchResults: SetSearch;
+  saveRecipe: UpdateRecipe;
+  removeRecipe: UpdateRecipe;
+  savedRecipes: Recipe[];
+  user: User;
+}
+
+export function AllRecipesView(props: Props) {
+  const [isLoading, setLoadStatus] = useState<boolean>(true);
 
   useEffect(() => {
     if (props.location.state && !props.search.length) {
@@ -16,10 +26,10 @@ export function AllRecipesView(props) {
     }
   }, []);
 
-  async function getSearchResults() {
+  async function getSearchResults(): Promise<void> {
     window.scrollTo(0, 0);
-    const ingredient = props.location.state.ingredient;
-    const { data } = await axios.get(serverUrl, {
+    const ingredient: string = props.location.state.ingredient;
+    const { data }: { data: Recipe[] } = await axios.get(serverUrl, {
       params: {
         ingredients: ingredient,
       },
@@ -42,15 +52,5 @@ export function AllRecipesView(props) {
     />
   );
 }
-
-AllRecipesView.propTypes = {
-  removeRecipe: PropTypes.func,
-  saveRecipe: PropTypes.func,
-  savedRecipes: PropTypes.array,
-  search: PropTypes.array,
-  setSearchResults: PropTypes.func,
-  setSingleRecipe: PropTypes.func,
-  user: PropTypes.object,
-};
 
 export default withRouter(AllRecipesView);
