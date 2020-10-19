@@ -2,14 +2,15 @@ import React, { useState, useEffect, ChangeEvent } from "react";
 import { Box, Button, Typography } from "@material-ui/core";
 import Search from "./search";
 import arrowWood from "../arrowwoodback.jpg";
-import { Redirect, withRouter } from "react-router-dom";
-import CSS from 'csstype';
+import { Redirect, withRouter, RouteComponentProps } from "react-router-dom";
+import CSS from "csstype";
+import { SetSearch } from "../interfaces";
 
 interface Styles {
-  paperContainer: CSS.Properties
-  formContainer: CSS.Properties
-  title: CSS.Properties
-  button: CSS.Properties
+  paperContainer: CSS.Properties;
+  formContainer: CSS.Properties;
+  title: CSS.Properties;
+  button: CSS.Properties;
 }
 
 const styles: Styles = {
@@ -47,21 +48,19 @@ const styles: Styles = {
   },
 };
 
-type Props = {
-  setSearchResults: (result: Array<string>) => Array<string>
+interface Props extends RouteComponentProps<any> {
+  setSearchResults: SetSearch;
 }
 
-
-
 export function Home(props: Props): JSX.Element {
-  const [ingredient, setIngredient] = useState("");
-  const [isSubmitted, setSubmitStatus] = useState(false);
+  const [ingredient, setIngredient] = useState<string>("");
+  const [isSubmitted, setSubmitStatus] = useState<boolean>(false);
 
   useEffect(() => {
     props.setSearchResults([]);
   }, []);
 
-  const handleSubmit = (event) => {
+  const handleSubmit: React.FormEventHandler = (event: React.FormEvent) => {
     if (event) {
       event.preventDefault();
     }
@@ -91,7 +90,9 @@ export function Home(props: Props): JSX.Element {
         </Typography>
         <Search
           ingredient={ingredient}
-          onChange={(evt: React.ChangeEvent<HTMLInputElement>) => setIngredient(evt.target.value)}
+          onChange={(evt: React.ChangeEvent<HTMLInputElement>) =>
+            setIngredient(evt.target.value)
+          }
           onSubmit={handleSubmit}
         />
         <Button
