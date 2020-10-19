@@ -67,6 +67,8 @@ export function SingleRecipe(props) {
     props.appState.savedRecipes.filter((saved) => saved.title === recipe.title)
       .length > 0;
 
+  console.log(props);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

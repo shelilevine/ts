@@ -7,44 +7,57 @@ import {
   CardMedia,
   Grid,
   Typography,
+  Theme,
 } from "@material-ui/core";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import StarIcon from "@material-ui/icons/Star";
-import { makeStyles } from "@material-ui/core/styles";
-import { withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
+import { withRouter, RouteComponentProps } from "react-router-dom";
+import { Recipe, User, UpdateRecipe } from "../interfaces";
 
-const useStyles = makeStyles(() => ({
-  card: {
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-    borderRadius: "5px",
-  },
-  cardMedia: {
-    paddingTop: "56.25%", // 16:9
-    margin: "4%",
-  },
-  cardContent: {
-    flexGrow: 1,
-    paddingTop: "20px",
-  },
-  button: {
-    justifyContent: "space-between",
-  },
-  save: {
-    alignSelf: "flex-end",
-    justifySelf: "flex-end",
-  },
-  cardTitle: {
-    fontFamily: "Lato, serif",
-    textAlign: "center",
-  },
-}));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    card: {
+      height: "100%",
+      display: "flex",
+      flexDirection: "column",
+      borderRadius: "5px",
+    },
+    cardMedia: {
+      paddingTop: "56.25%", // 16:9
+      margin: "4%",
+    },
+    cardContent: {
+      flexGrow: 1,
+      paddingTop: "20px",
+    },
+    button: {
+      justifyContent: "space-between",
+    },
+    save: {
+      alignSelf: "flex-end",
+      justifySelf: "flex-end",
+    },
+    cardTitle: {
+      fontFamily: "Lato, serif",
+      textAlign: "center",
+    },
+  })
+);
 
-export function RecipeCard(props) {
+interface Props extends RouteComponentProps<any> {
+  isSaved: boolean;
+  user: User;
+  recipe: Recipe;
+  setSingleRecipe: UpdateRecipe;
+  saveRecipe: UpdateRecipe;
+  removeRecipe: UpdateRecipe;
+}
+
+export function RecipeCard(props: Props) {
   const classes = useStyles();
-  const { isSaved, user, recipe } = props;
+  let { isSaved, user, recipe } = props;
+  user = user || {};
 
   return (
     <React.Fragment>
@@ -69,13 +82,9 @@ export function RecipeCard(props) {
             <Button
               size="small"
               color="primary"
-              className={classes.view}
               onClick={() => {
                 props.setSingleRecipe(recipe);
-                props.history.push({
-                  pathname: "/single-recipe",
-                  state: recipe,
-                });
+                props.history.push("/single-recipe", recipe);
               }}
             >
               View
@@ -101,16 +110,5 @@ export function RecipeCard(props) {
     </React.Fragment>
   );
 }
-
-RecipeCard.propTypes = {
-  isSaved: PropTypes.bool,
-  user: PropTypes.object,
-  recipe: PropTypes.object,
-};
-
-RecipeCard.defaultProps = {
-  isSaved: false,
-  user: {},
-};
 
 export default withRouter(RecipeCard);
