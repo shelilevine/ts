@@ -8,56 +8,59 @@ import {
   Grid,
   Container,
   Box,
+  Theme,
+  IconButton,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
 import SingleRecipeIngredients from "./SingleRecipeIngredients";
 import SingleRecipeSteps from "./SingleRecipeSteps";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    minHeight: "100vh",
-    fontFamily: "Lato, sans serif",
-    backgroundImage: `url(${arrowWood})`,
-  },
-  main: {
-    marginTop: theme.spacing(8),
-    marginBottom: theme.spacing(8),
-    backgroundColor: "white",
-    borderRadius: "10px",
-    opacity: "94%",
-    fontFamily: "Lato, sans serif",
-  },
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    flexGrow: 1,
-    marginLeft: "2%",
-    marginTop: "3%",
-  },
-  title: {
-    margin: "1.5%",
-  },
-  recipeImg: {
-    width: "100%",
-    marginBottom: "15px",
-  },
-  recipeImgContainer: {
-    display: "flex",
-  },
-  favoriteStar: {
-    marginTop: "2%",
-  },
-  typography: {
-    fontFamily: "Lato, Times, serif",
-  },
-  servings: {
-    marginTop: "4%",
-  },
-}));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      display: "flex",
+      flexDirection: "column",
+      minHeight: "100vh",
+      fontFamily: "Lato, sans serif",
+      backgroundImage: `url(${arrowWood})`,
+    },
+    main: {
+      marginTop: theme.spacing(8),
+      marginBottom: theme.spacing(8),
+      backgroundColor: "white",
+      borderRadius: "10px",
+      opacity: "94%",
+      fontFamily: "Lato, sans serif",
+    },
+    header: {
+      display: "flex",
+      justifyContent: "space-between",
+      flexGrow: 1,
+      marginLeft: "2%",
+      marginTop: "3%",
+    },
+    title: {
+      margin: "1.5%",
+    },
+    recipeImg: {
+      width: "100%",
+      marginBottom: "15px",
+    },
+    recipeImgContainer: {
+      display: "flex",
+    },
+    favoriteStar: {
+      marginTop: "2%",
+    },
+    typography: {
+      fontFamily: "Lato, Times, serif",
+    },
+    servings: {
+      marginTop: "4%",
+    },
+  })
+);
 
 export function SingleRecipe(props) {
   const classes = useStyles();
@@ -66,8 +69,6 @@ export function SingleRecipe(props) {
   const isSaved =
     props.appState.savedRecipes.filter((saved) => saved.title === recipe.title)
       .length > 0;
-
-  console.log(props);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -107,16 +108,14 @@ export function SingleRecipe(props) {
 
             <div className={classes.favoriteStar}>
               {isLoggedIn && !isSaved ? (
-                <StarBorderIcon
-                  variant="contained"
-                  onClick={() => props.saveRecipe(recipe)}
-                />
+                <IconButton onClick={() => props.saveRecipe(recipe)}>
+                  <StarBorderIcon />
+                </IconButton>
               ) : null}
               {isLoggedIn && isSaved ? (
-                <StarIcon
-                  variant="contained"
-                  onClick={() => props.removeRecipe(recipe)}
-                />
+                <IconButton onClick={() => props.removeRecipe(recipe)}>
+                  <StarIcon />
+                </IconButton>
               ) : null}
             </div>
           </Box>
@@ -142,9 +141,5 @@ export function SingleRecipe(props) {
     </div>
   );
 }
-
-SingleRecipe.propTypes = {
-  appState: PropTypes.object,
-};
 
 export default withRouter(SingleRecipe);
