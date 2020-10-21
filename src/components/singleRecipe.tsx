@@ -12,9 +12,10 @@ import {
   IconButton,
 } from "@material-ui/core";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import { withRouter } from "react-router-dom";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import SingleRecipeIngredients from "./SingleRecipeIngredients";
 import SingleRecipeSteps from "./SingleRecipeSteps";
+import { AppState, UpdateRecipe } from "../interfaces";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -62,7 +63,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export function SingleRecipe(props) {
+interface Props extends RouteComponentProps<any> {
+  appState: AppState;
+  saveRecipe: UpdateRecipe;
+  removeRecipe: UpdateRecipe;
+}
+
+export function SingleRecipe(props: Props) {
   const classes = useStyles();
   const recipe = props.location.state || props.appState.singleRecipe;
   const isLoggedIn = !!props.appState.user.id;
