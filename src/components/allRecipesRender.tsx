@@ -75,6 +75,8 @@ export function AllRecipesRender(props: Props) {
   } = props;
   const user = props.user || {};
 
+  console.log("isloading", isLoading, "recipes", recipes);
+
   return (
     <React.Fragment>
       <CssBaseline />

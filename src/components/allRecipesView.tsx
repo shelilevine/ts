@@ -23,7 +23,7 @@ export function AllRecipesView(props: Props) {
     if (props.location.state && !props.search.length) {
       props.setSingleRecipe({});
       getSearchResults();
-    }
+    } else setLoadStatus(false);
   }, []);
 
   async function getSearchResults(): Promise<void> {
