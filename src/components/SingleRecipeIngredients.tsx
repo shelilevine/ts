@@ -1,25 +1,30 @@
 import React from "react";
-import { Typography, Grid, Container } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import PropTypes from "prop-types";
+import { Typography, Grid, Container, Theme } from "@material-ui/core";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
-  recipeIngredientsContainer: {
-    display: "flex",
-    marginLeft: "3%",
-    paddingBottom: "3%",
-  },
-  recipeIngredients: {
-    marginTop: "1%",
-    paddingTop: "1%",
-    paddingBottom: "1%",
-  },
-  typography: {
-    fontFamily: "Lato, Times, serif",
-  },
-}));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    recipeIngredientsContainer: {
+      display: "flex",
+      marginLeft: "3%",
+      paddingBottom: "3%",
+    },
+    recipeIngredients: {
+      marginTop: "1%",
+      paddingTop: "1%",
+      paddingBottom: "1%",
+    },
+    typography: {
+      fontFamily: "Lato, Times, serif",
+    },
+  })
+);
 
-export default function SingleRecipeIngredients(props) {
+type Props = {
+  ingredients: string[];
+};
+
+export default function SingleRecipeIngredients(props: Props) {
   const classes = useStyles();
   const { ingredients } = props;
 
@@ -60,11 +65,3 @@ export default function SingleRecipeIngredients(props) {
     </React.Fragment>
   );
 }
-
-SingleRecipeIngredients.propTypes = {
-  ingredients: PropTypes.array,
-};
-
-SingleRecipeIngredients.defaultProps = {
-  ingredients: [],
-};
