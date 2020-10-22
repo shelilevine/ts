@@ -46,8 +46,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props extends RouteComponentProps<any> {
-  isSaved: boolean;
-  user: User;
+  isSaved?: boolean;
+  user?: User;
   recipe: Recipe;
   setSingleRecipe: UpdateRecipe;
   saveRecipe: UpdateRecipe;

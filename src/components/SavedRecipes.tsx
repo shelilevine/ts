@@ -1,34 +1,42 @@
 import React from "react";
 import RecipeCard from "./RecipeCard";
-import { Grid, Container, Box, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import PropTypes from "prop-types";
+import { Grid, Container, Box, Typography, Theme } from "@material-ui/core";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
+import { Recipe, UpdateRecipe } from "../interfaces";
 
-const useStyles = makeStyles((theme) => ({
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-  },
-  results: {
-    alignContent: "center",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  text: {
-    textAlign: "center",
-    noWrap: "true",
-    color: "white",
-    fontWeight: "70px",
-    fontFamily: "Oswald, sans-serif",
-    marginBottom: "30px",
-    marginTop: "10px",
-  },
-}));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    cardGrid: {
+      paddingTop: theme.spacing(8),
+      paddingBottom: theme.spacing(8),
+    },
+    results: {
+      alignContent: "center",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    text: {
+      textAlign: "center",
+      noWrap: "true",
+      color: "white",
+      fontFamily: "Oswald, sans-serif",
+      marginBottom: "30px",
+      marginTop: "10px",
+    },
+  })
+);
 
-const SavedRecipes = (props) => {
+type Props = {
+  recipes: Recipe[];
+  setSingleRecipe: UpdateRecipe;
+  removeRecipe: UpdateRecipe;
+  saveRecipe: UpdateRecipe;
+};
+
+const SavedRecipes = (props: Props) => {
   const classes = useStyles();
-  const { recipes, setSingleRecipe } = props;
+  const { recipes, setSingleRecipe, saveRecipe, removeRecipe } = props;
 
   return (
     <React.Fragment>
@@ -53,6 +61,8 @@ const SavedRecipes = (props) => {
                 recipe={recipe}
                 key={recipe.title}
                 setSingleRecipe={setSingleRecipe}
+                removeRecipe={removeRecipe}
+                saveRecipe={saveRecipe}
               />
             ))}
           </Grid>
@@ -60,11 +70,6 @@ const SavedRecipes = (props) => {
       </main>
     </React.Fragment>
   );
-};
-
-SavedRecipes.propTypes = {
-  setSingleRecipe: PropTypes.func,
-  recipes: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default SavedRecipes;

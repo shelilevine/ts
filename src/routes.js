@@ -81,6 +81,8 @@ export class Routes extends Component {
                 <SavedRecipes
                   recipes={appState.savedRecipes}
                   setSingleRecipe={setSingleRecipe}
+                  removeRecipe={removeRecipe}
+                  saveRecipe={saveRecipe}
                 />
               )}
             />
