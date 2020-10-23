@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Redirect, withRouter } from "react-router-dom";
+import { Redirect, withRouter, RouteComponentProps } from "react-router-dom";
 import {
   Box,
   Avatar,
@@ -11,53 +11,67 @@ import {
   Grid,
   Typography,
   Container,
+  Theme,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
 import Alert from "@material-ui/lab/Alert";
+import { User, SetUser } from "../interfaces";
 
 const serverUrl = "/api/auth/signup";
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    backgroundColor: "white",
-    padding: "30px",
-    borderRadius: "10px",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-  formContainer: {
-    alignContent: "center",
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    flexDirection: "column",
-    minHeight: "100vh",
-  },
-}));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    paper: {
+      marginTop: theme.spacing(8),
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      backgroundColor: "white",
+      padding: "30px",
+      borderRadius: "10px",
+    },
+    avatar: {
+      margin: theme.spacing(1),
+      backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+      width: "100%", // Fix IE 11 issue.
+      marginTop: theme.spacing(1),
+    },
+    submit: {
+      margin: theme.spacing(3, 0, 2),
+    },
+    formContainer: {
+      alignContent: "center",
+      display: "flex",
+      justifyContent: "flex-start",
+      alignItems: "center",
+      flexDirection: "column",
+      minHeight: "100vh",
+    },
+  })
+);
 
-export function SignUp(props) {
-  const [user, updateUser] = useState({ email: "", password: "" });
-  const [error, setError] = useState(null);
+type UserInfo = {
+  email: string;
+  password: string;
+};
+
+interface Props extends RouteComponentProps<any> {
+  setUser: SetUser;
+  user: User;
+}
+
+export function SignUp(props: Props): JSX.Element {
+  const [user, updateUser] = useState<UserInfo>({ email: "", password: "" });
+  const [error, setError] = useState<null | string>(null);
   const classes = useStyles();
 
-  async function handleSubmit(evt) {
+  async function handleSubmit(evt: React.FormEvent): Promise<void> {
     evt.preventDefault();
     try {
-      const { data } = await axios.post(serverUrl, user);
+      const { data }: { data: User } = await axios.post(serverUrl, user);
       if (data.id) {
         props.setUser(data);
         props.history.push("/");

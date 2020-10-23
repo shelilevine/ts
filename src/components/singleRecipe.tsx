@@ -69,7 +69,7 @@ interface Props extends RouteComponentProps<any> {
   removeRecipe: UpdateRecipe;
 }
 
-export function SingleRecipe(props: Props) {
+export function SingleRecipe(props: Props): JSX.Element {
   const classes = useStyles();
   const recipe = props.location.state || props.appState.singleRecipe;
   const isLoggedIn = !!props.appState.user.id;

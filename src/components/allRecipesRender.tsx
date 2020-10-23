@@ -62,7 +62,7 @@ interface Props extends RouteComponentProps<any> {
   user: User;
 }
 
-export function AllRecipesRender(props: Props) {
+export function AllRecipesRender(props: Props): JSX.Element {
   const classes = useStyles();
   const {
     recipes,

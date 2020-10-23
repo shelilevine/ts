@@ -34,7 +34,7 @@ type Props = {
   saveRecipe: UpdateRecipe;
 };
 
-const SavedRecipes = (props: Props) => {
+const SavedRecipes = (props: Props): JSX.Element => {
   const classes = useStyles();
   const { recipes, setSingleRecipe, saveRecipe, removeRecipe } = props;
 

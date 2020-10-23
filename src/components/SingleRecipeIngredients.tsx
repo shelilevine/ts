@@ -24,7 +24,7 @@ type Props = {
   ingredients: string[];
 };
 
-export default function SingleRecipeIngredients(props: Props) {
+export default function SingleRecipeIngredients(props: Props): JSX.Element {
   const classes = useStyles();
   const { ingredients } = props;
 

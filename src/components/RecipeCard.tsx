@@ -54,7 +54,7 @@ interface Props extends RouteComponentProps<any> {
   removeRecipe: UpdateRecipe;
 }
 
-export function RecipeCard(props: Props) {
+export function RecipeCard(props: Props): JSX.Element {
   const classes = useStyles();
   let { isSaved, user, recipe } = props;
   user = user || {};

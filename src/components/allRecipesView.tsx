@@ -16,7 +16,7 @@ interface Props extends RouteComponentProps<any> {
   user: User;
 }
 
-export function AllRecipesView(props: Props) {
+export function AllRecipesView(props: Props): JSX.Element {
   const [isLoading, setLoadStatus] = useState<boolean>(true);
 
   useEffect(() => {
