@@ -8,64 +8,72 @@ import {
   Menu,
   Button,
   Box,
+  Theme,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
 import { AccountCircle } from "@material-ui/icons";
-import { withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
+import { withRouter, RouteComponentProps } from "react-router-dom";
+import { User, Logout } from "../interfaces";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    opacity: "100%",
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    align: "center",
-    cursor: "pointer",
-    fontFamily: "Oswald, sans-serif",
-    fontSize: "60px",
-    color: "white",
-  },
-  button: {
-    backgroundColor: "white",
-    color: "#ec2d01",
-  },
-  toolbar: {
-    display: "flex",
-    justifyContent: "space-evenly",
-  },
-  centerBox: {
-    flexBasis: 0,
-    flexGrow: 1,
-    display: "flex",
-    justifyContent: "center",
-  },
-  leftBox: {
-    flexBasis: 0,
-    flexGrow: 1,
-  },
-  rightBox: {
-    flexBasis: 0,
-    flexGrow: 1,
-    display: "flex",
-    justifyContent: "flex-end",
-  },
-}));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+      opacity: "100%",
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      align: "center",
+      cursor: "pointer",
+      fontFamily: "Oswald, sans-serif",
+      fontSize: "60px",
+      color: "white",
+    },
+    button: {
+      backgroundColor: "white",
+      color: "#ec2d01",
+    },
+    toolbar: {
+      display: "flex",
+      justifyContent: "space-evenly",
+    },
+    centerBox: {
+      flexBasis: 0,
+      flexGrow: 1,
+      display: "flex",
+      justifyContent: "center",
+    },
+    leftBox: {
+      flexBasis: 0,
+      flexGrow: 1,
+    },
+    rightBox: {
+      flexBasis: 0,
+      flexGrow: 1,
+      display: "flex",
+      justifyContent: "flex-end",
+    },
+  })
+);
 
-function MenuAppBar(props) {
+interface Props extends RouteComponentProps<any> {
+  user: User;
+  logout: Logout;
+}
+
+function MenuAppBar(props: Props) {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
+  const [anchorEl, setAnchorEl] = React.useState<null | Element>(null);
+  const open: boolean = Boolean(anchorEl);
   const { user, logout } = props;
 
-  const handleMenu = (event) => {
+  const handleMenu = (event: React.MouseEvent): void => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = (): void => {
     setAnchorEl(null);
   };
 
@@ -77,13 +85,13 @@ function MenuAppBar(props) {
           background: "#ec2d01",
         }}
       >
-        <Toolbar classesName={classes.toolbar}>
+        <Toolbar>
           <Box className={classes.leftBox} />
           <Box className={classes.centerBox}>
             <Typography
               variant="h4"
               className={classes.title}
-              onClick={() => props.history.push("/")}
+              onClick={(): void => props.history.push("/")}
             >
               SERV'D
             </Typography>
@@ -115,7 +123,7 @@ function MenuAppBar(props) {
                 onClose={handleClose}
               >
                 <MenuItem
-                  onClick={() => {
+                  onClick={(): void => {
                     handleClose();
                     props.history.push("/myAccount");
                   }}
@@ -123,7 +131,7 @@ function MenuAppBar(props) {
                   Profile
                 </MenuItem>
                 <MenuItem
-                  onClick={() => {
+                  onClick={(): void => {
                     handleClose();
                     props.history.push("/saved");
                   }}
@@ -131,7 +139,7 @@ function MenuAppBar(props) {
                   Saved Recipes
                 </MenuItem>
                 <MenuItem
-                  onClick={() => {
+                  onClick={(): void => {
                     handleClose();
                     logout();
                   }}
@@ -145,7 +153,7 @@ function MenuAppBar(props) {
               <Button
                 variant="outlined"
                 size="small"
-                onClick={() =>
+                onClick={(): void =>
                   props.history.push("/login", props.history.location.pathname)
                 }
                 className={classes.button}
@@ -159,10 +167,5 @@ function MenuAppBar(props) {
     </div>
   );
 }
-
-MenuAppBar.propTypes = {
-  logout: PropTypes.func,
-  user: PropTypes.object,
-};
 
 export default withRouter(MenuAppBar);
