@@ -4,11 +4,20 @@ import ViewAccountForm from "./ViewAccountForm";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
 import { Button, Box, Hidden, withWidth } from "@material-ui/core";
-import { withSnackbar } from "notistack";
+import { withSnackbar, ProviderContext, SnackbarOrigin } from "notistack";
+import CSS from "csstype";
+import { SetUser, User, AppState, Logout } from "../interfaces";
 
-const serverUrl = "/api/auth";
+const serverUrl: string = "/api/auth";
 
-const styles = {
+type Styles = {
+  button: CSS.Properties;
+  formContainer: CSS.Properties;
+  mdUp: SnackbarOrigin;
+  mdDown: SnackbarOrigin;
+};
+
+const styles: Styles = {
   button: {
     marginTop: "30px",
     backgroundColor: "#ec2d01",
@@ -32,8 +41,18 @@ const styles = {
   },
 };
 
-export function Account(props) {
-  const [user, updateUser] = useState({ name: "", password: "", email: "" });
+interface Props extends ProviderContext {
+  setUser: SetUser;
+  appState: AppState;
+  logout: Logout;
+}
+
+export function Account(props: Props): JSX.Element {
+  const [user, updateUser] = useState<User>({
+    name: "",
+    password: "",
+    email: "",
+  });
 
   useEffect(() => {
     updateUser({ ...user, ...props.appState.user });
@@ -82,4 +101,5 @@ export function Account(props) {
   );
 }
 
-export default withRouter(withSnackbar(Account));
+// export default withRouter(withSnackbar(Account));
+export default withSnackbar(Account);
