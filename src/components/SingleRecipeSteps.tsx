@@ -1,19 +1,24 @@
 import React from "react";
-import { Typography, Grid, Container } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import PropTypes from "prop-types";
+import { Typography, Grid, Container, Theme } from "@material-ui/core";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
-  typography: {
-    fontFamily: "Lato, Times, serif",
-  },
-  step: {
-    margin: "0 0 0.5rem 1.5rem",
-    paddingRight: "2rem",
-  },
-}));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    typography: {
+      fontFamily: "Lato, Times, serif",
+    },
+    step: {
+      margin: "0 0 0.5rem 1.5rem",
+      paddingRight: "2rem",
+    },
+  })
+);
 
-export default function SingleRecipeSteps(props) {
+type Props = {
+  steps: string[];
+};
+
+export default function SingleRecipeSteps(props: Props): JSX.Element {
   const classes = useStyles();
   let { steps } = props;
 
@@ -48,11 +53,3 @@ export default function SingleRecipeSteps(props) {
     </React.Fragment>
   );
 }
-
-SingleRecipeSteps.propTypes = {
-  steps: PropTypes.array,
-};
-
-SingleRecipeSteps.defaultProps = {
-  steps: [],
-};
